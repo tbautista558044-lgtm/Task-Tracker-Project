@@ -64,20 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .sakura-deco:nth-child(2) { top: 70%; right: 8%;   animation-delay: 1.5s; font-size: 32px; }
         .sakura-deco:nth-child(3) { top: 40%; left: 3%;    animation-delay: 3s;   font-size: 20px; }
         .sakura-deco:nth-child(4) { top: 20%; right: 5%;   animation-delay: 2s;   font-size: 26px; }
-        .sakura-deco:nth-child(5) { top: 50%; right: 10%;  animation-delay: 4;    font-size: 28px; }
-        .sakura-deco:nth-child(6) { top: 60%; left: 16%;   animation-delay: 4;    font-size: 30px; }
-        .sakura-deco:nth-child(7) { top: 80%; left: 10%;   animation-delay: 4;    font-size: 25px; }
-        .sakura-deco:nth-child(8) { top: 67%; left: 6%;    animation-delay: 3;    font-size: 25px; }
-        .sakura-deco:nth-child(9) { top: 67%; left: 6%;    animation-delay: 3;    font-size: 25px; }
-        .sakura-deco:nth-child(10) { top: 67%; right: 6%;  animation-delay: 3;    font-size: 25px; }
-        .sakura-deco:nth-child(11) { top: 67%; right: 6%;  animation-delay: 3;    font-size: 25px; }
-        .sakura-deco:nth-child(12) { top: 67%; right: 6%;  animation-delay: 3;    font-size: 25px; }
-        .sakura-deco:nth-child(13) { top: 67%; right: 6%;  animation-delay: 3;    font-size: 25px; }
-        .sakura-deco:nth-child(14) { top: 67%; right: 6%;  animation-delay: 3;    font-size: 25px; }
-        .sakura-deco:nth-child(15) { top: 67%; right: 6%;  animation-delay: 3;    font-size: 25px; }
-        .sakura-deco:nth-child(16) { top: 67%; left: 6%;   animation-delay: 3;    font-size: 25px; }
-        .sakura-deco:nth-child(17) { top: 67%; left: 6%;   animation-delay: 3;    font-size: 25px; }
-        .sakura-deco:nth-child(17) { top: 67%; left: 6%;   animation-delay: 3;    font-size: 25px; }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -113,22 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <span class="sakura-deco">🌸</span> <!-- 1 -->
     <span class="sakura-deco">✿</span>  <!-- 2 -->
     <span class="sakura-deco">🌸</span> <!-- 3 -->
-    <span class="sakura-deco">✦</span>  <!-- 4 -->
-    <span class="sakura-deco">🌸</span> <!-- 5 -->
-    <span class="sakura-deco">✿</span>  <!-- 6 -->
-    <span class="sakura-deco">🌸</span> <!-- 7 -->
-    <span class="sakura-deco">✦</span>  <!-- 8 -->
-    <span class="sakura-deco">✦</span>  <!-- 9 -->
-    <span class="sakura-deco">🌸</span> <!-- 10 -->
-    <span class="sakura-deco">🌸</span> <!-- 11 -->
-    <span class="sakura-deco">🌸</span> <!-- 12 -->
-    <span class="sakura-deco">🌸</span> <!-- 13 -->
-    <span class="sakura-deco">🌸</span> <!-- 14 -->
-    <span class="sakura-deco">🌸</span> <!-- 15 -->
-    <span class="sakura-deco">🌸</span> <!-- 16 -->
-    <span class="sakura-deco">🌸</span> <!-- 17 -->
-
-    
+    <span class="sakura-deco">✦</span>  <!-- 4 -->   
 
     <div class="auth-wrapper">
         <div class="auth-box">
