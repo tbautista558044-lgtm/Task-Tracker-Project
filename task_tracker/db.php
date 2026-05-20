@@ -1,11 +1,11 @@
 <?php
 
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');       // MySQL username
-define('DB_PASS', '');           // MySQL password
-define('DB_NAME', 'task_tracker');
+$SERVER_NAME = getenv('SERVER_NAME');
+$USERNAME = getenv('USERNAME');
+$PASSWORD = getenv('PASSWORD');
+$DB_NAME = getenv('DB_NAME');
 
-$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$conn = mysqli_connect(SERVER_NAME, USERNAME, PASSWORD, DB_NAME);
 
 if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());
