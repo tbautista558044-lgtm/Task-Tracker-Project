@@ -18,8 +18,10 @@
             <div class="alert alert-error"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
+        <!-- Action points to the router; TaskController → add() handles the POST -->
         <form method="POST" action="index.php?page=add-task">
 
+            <!-- ── title ─────────────────────────────────────────── -->
             <div class="field">
                 <label for="title">Task title <span style="color:var(--danger)">*</span></label>
                 <input type="text" id="title" name="title"
@@ -27,9 +29,11 @@
                        value="<?= htmlspecialchars($_POST['title'] ?? '') ?>"
                        maxlength="255" required autofocus
                        oninput="updateCounter(this,'titleCounter',255)">
+                <!-- Counter updates live via updateCounter() below -->
                 <div class="char-counter" id="titleCounter">255 characters remaining</div>
             </div>
 
+            <!-- ── description ───────────────────────────────────── -->
             <div class="field">
                 <label for="description">
                     Description <span style="color:var(--muted);font-weight:400">(optional)</span>
@@ -41,6 +45,8 @@
                 <div class="char-counter" id="descCounter">500 characters remaining</div>
             </div>
 
+            <!-- ── date range ─────────────────────────────────────── -->
+            <!-- min is today so users can't accidentally pick a past date -->
             <div class="field">
                 <label>Date <span style="color:var(--muted);font-weight:400">(optional)</span></label>
                 <div class="date-range-row">
@@ -52,6 +58,7 @@
                     </div>
                     <div class="date-range-field">
                         <label class="date-range-label" for="end_date">🌷 Ends</label>
+                        <!-- end_date min is kept in sync with start_date via JS -->
                         <input type="date" id="end_date" name="end_date"
                                value="<?= htmlspecialchars($_POST['end_date'] ?? '') ?>"
                                min="<?= date('Y-m-d') ?>">
@@ -60,6 +67,8 @@
                 <div class="field-hint">Leave blank to add without a date, or pick a range for multi-day tasks.</div>
             </div>
 
+            <!-- ── priority ──────────────────────────────────────── -->
+            <!-- Radio group — medium is checked by default -->
             <div class="field">
                 <label for="priority">Priority</label>
                 <div class="priority-select-row">
@@ -78,6 +87,7 @@
                 </div>
             </div>
 
+            <!-- ── category ──────────────────────────────────────── -->
             <div class="field">
                 <label for="category">Category <span style="color:var(--muted);font-weight:400">(optional)</span></label>
                 <input type="text" id="category" name="category"
@@ -86,6 +96,7 @@
                        maxlength="50">
             </div>
 
+            <!-- ── actions ───────────────────────────────────────── -->
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">✦ Save task</button>
                 <a href="index.php?page=dashboard" class="btn btn-ghost">Cancel</a>
@@ -95,6 +106,9 @@
     </div>
 
 <script>
+    // ── updateCounter ─────────────────────────────────────────
+    // Updates the character countdown below a field.
+    // Adds 'warning' at 20% remaining, 'danger' at 10%.
     function updateCounter(input, id, max) {
         const r  = max - input.value.length;
         const el = document.getElementById(id);
@@ -104,7 +118,8 @@
         else if (r < max * 0.20) el.classList.add('warning');
     }
 
-    // Keep end_date >= start_date
+    // ── date sync ─────────────────────────────────────────────
+    // Keeps end_date >= start_date so the range is always valid.
     const startInput = document.getElementById('start_date');
     const endInput   = document.getElementById('end_date');
     startInput.addEventListener('change', () => {
