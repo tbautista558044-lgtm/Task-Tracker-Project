@@ -18,20 +18,15 @@
 // __DIR__ here would point to /public/, not the root — so we
 // use the ROOT constant instead for reliability.
 
-//define('DB_HOST', $env['DB_HOST']);
-//define('DB_PORT', (int)$env['DB_PORT']);
-//define('DB_USER', $env['DB_USER']);
-//define('DB_PASS', $env['DB_PASS']);
-//define('DB_NAME', $env['DB_NAME']);
-
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');       // your MySQL username
-define('DB_PASS', '');           // MySQL password
-define('DB_NAME', 'task_tracker1');
+define('DB_HOST', getenv['DB_HOST']);
+define('DB_PORT', getenv['DB_PORT']);
+define('DB_USER', getenv['DB_USER']);
+define('DB_PASS', getenv['DB_PASS']);
+define('DB_NAME', getenv['DB_NAME']);
 
 // Open the MySQL connection
 // The 5th argument is the port — required for Railway (not 3306)
-$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT);
 
 if (!$conn) {
     die("
