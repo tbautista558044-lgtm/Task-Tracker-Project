@@ -15,12 +15,13 @@
 
         <div class="form-heading-row">
             <h2>✎ Edit task</h2>
+            <!-- Badge is hidden by default; markUnsaved() toggles the 'show' class -->
             <span class="unsaved-badge" id="unsavedBadge">
                 <span class="unsaved-dot"></span> Unsaved changes
             </span>
         </div>
 
-        <!-- Read-only task info -->
+        <!-- Read-only snapshot of the task's current status and creation date -->
         <div class="task-meta-card">
             <div class="meta-item">
                 <strong>Status</strong>
@@ -38,9 +39,12 @@
             <div class="alert alert-error"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
+        <!-- Action includes the task ID; TaskController → edit() handles the POST -->
+        <!-- 'from' tracks where the user came from so Cancel sends them back there -->
         <form method="POST" action="index.php?page=edit-task&id=<?= $task['id'] ?>" id="editForm">
             <input type="hidden" name="from" value="<?= htmlspecialchars($_GET['from'] ?? '') ?>">
 
+            <!-- ── title ─────────────────────────────────────────── -->
             <div class="field">
                 <label for="title">Task title <span style="color:var(--danger)">*</span></label>
                 <input type="text" id="title" name="title"
@@ -48,9 +52,11 @@
                        maxlength="255" required autofocus
                        oninput="updateCounter(this,'titleCounter',255); markUnsaved()">
                 <div class="char-counter" id="titleCounter"></div>
+                <!-- Shows the original title for reference while editing -->
                 <div class="original-hint" id="originalHint"></div>
             </div>
 
+            <!-- ── description ───────────────────────────────────── -->
             <div class="field">
                 <label for="description">
                     Description <span style="color:var(--muted);font-weight:400">(optional)</span>
@@ -61,6 +67,8 @@
                 <div class="char-counter" id="descCounter"></div>
             </div>
 
+            <!-- ── date range ─────────────────────────────────────── -->
+            <!-- Falls back through start_date → due_date so older tasks still show a value -->
             <div class="field">
                 <label>Date <span style="color:var(--muted);font-weight:400">(optional)</span></label>
                 <div class="date-range-row">
@@ -72,6 +80,7 @@
                     </div>
                     <div class="date-range-field">
                         <label class="date-range-label" for="end_date">🌷 End</label>
+                        <!-- Falls back through end_date → start_date → due_date -->
                         <input type="date" id="end_date" name="end_date"
                                value="<?= htmlspecialchars($task['end_date'] ?? $task['start_date'] ?? $task['due_date'] ?? '') ?>"
                                onchange="markUnsaved()">
@@ -79,6 +88,8 @@
                 </div>
             </div>
 
+            <!-- ── priority ──────────────────────────────────────── -->
+            <!-- Falls back to 'medium' if the task has no priority stored -->
             <div class="field">
                 <label>Priority</label>
                 <div class="priority-select-row">
@@ -97,7 +108,8 @@
                 </div>
             </div>
 
-            <!-- ── Task Icon Picker (collapsed) ── -->
+            <!-- ── icon picker ───────────────────────────────────── -->
+            <!-- Collapsed dropdown; selection is written to the hidden input -->
             <div class="field">
                 <label>Task Icon <span style="color:var(--muted);font-weight:400">(optional)</span></label>
                 <input type="hidden" name="icon" id="iconInput" value="<?= htmlspecialchars($task['icon'] ?? '') ?>">
@@ -123,6 +135,7 @@
                             ];
                             foreach ($iconOptions as $em):
                             ?>
+                            <!-- Highlight the currently saved icon with the active class -->
                             <button type="button" class="icon-opt<?= ($task['icon'] ?? '') === $em ? ' icon-opt--active' : '' ?>"
                                     data-emoji="<?= htmlspecialchars($em) ?>"><?= $em ?></button>
                             <?php endforeach; ?>
@@ -132,6 +145,7 @@
                 </div>
             </div>
 
+            <!-- ── category ──────────────────────────────────────── -->
             <div class="field">
                 <label for="category">Category <span style="color:var(--muted);font-weight:400">(optional)</span></label>
                 <input type="text" id="category" name="category"
@@ -141,7 +155,8 @@
                        oninput="markUnsaved()">
             </div>
 
-            <!-- ── Calendar Style Picker (collapsed, calendar only) ── -->
+            <!-- ── calendar style picker (calendar referrals only) ── -->
+            <!-- Only shown when editing from the calendar page -->
             <?php if (($_GET['from'] ?? '') === 'calendar'): ?>
             <div class="field">
                 <label>🗓️ Calendar Style <span style="color:var(--muted);font-weight:400">(saved to browser)</span></label>
@@ -185,6 +200,8 @@
             </div>
             <?php endif; ?>
 
+            <!-- ── actions ───────────────────────────────────────── -->
+            <!-- Cancel returns to whichever page the user came from -->
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">✦ Save changes</button>
                 <a href="index.php?page=<?= ($_GET['from'] ?? '') === 'calendar' ? 'calendar' : 'dashboard' ?>" class="btn btn-ghost" id="cancelBtn">Cancel</a>
@@ -195,6 +212,9 @@
 </div>
 
 <script>
+    // ── updateCounter ─────────────────────────────────────────
+    // Updates the character countdown below a field.
+    // Adds 'warning' at 20% remaining, 'danger' at 10%.
     function updateCounter(input, id, max) {
         const r  = max - input.value.length;
         const el = document.getElementById(id);
@@ -204,6 +224,8 @@
         else if (r < max * 0.20) el.classList.add('warning');
     }
 
+    // ── original values ───────────────────────────────────────
+    // Captured on page load so markUnsaved() can diff against them
     const titleEl       = document.getElementById('title');
     const descEl        = document.getElementById('description');
     const startEl       = document.getElementById('start_date');
@@ -213,18 +235,25 @@
     const originalStart = startEl.value;
     const originalEnd   = endEl.value;
 
+    // Initialise counters with the pre-filled values
     updateCounter(titleEl, 'titleCounter', 255);
     updateCounter(descEl,  'descCounter',  500);
 
+    // Show the original title as a reference hint below the input
     if (originalTitle) {
         document.getElementById('originalHint').textContent = `Original: "${originalTitle}"`;
     }
 
+    // ── date sync ─────────────────────────────────────────────
+    // Keeps end_date >= start_date so the range is always valid
     startEl.addEventListener('change', () => {
         endEl.min = startEl.value;
         if (endEl.value && endEl.value < startEl.value) endEl.value = startEl.value;
     });
 
+    // ── markUnsaved ───────────────────────────────────────────
+    // Shows the unsaved-changes badge whenever any field differs
+    // from its original value; hides it when all fields match again
     let hasChanges = false;
     function markUnsaved() {
         hasChanges = titleEl.value !== originalTitle
@@ -234,14 +263,18 @@
         document.getElementById('unsavedBadge').classList.toggle('show', hasChanges);
     }
 
+    // Warn before leaving with unsaved changes
     window.addEventListener('beforeunload', function(e) {
         if (hasChanges) { e.preventDefault(); e.returnValue = ''; }
     });
 
+    // Clear the flag on intentional navigation so no warning fires
     document.getElementById('cancelBtn').addEventListener('click', () => hasChanges = false);
     document.getElementById('editForm').addEventListener('submit',  () => hasChanges = false);
 
-    /* ── Generic dropdown toggle helper ── */
+    // ── setupDropdown ─────────────────────────────────────────
+    // Wires a trigger element to open/close a picker dropdown.
+    // Closes all other open dropdowns first so only one is open at a time.
     function setupDropdown(triggerId, dropdownId, arrowId) {
         const trigger  = document.getElementById(triggerId);
         const dropdown = document.getElementById(dropdownId);
@@ -260,16 +293,21 @@
         });
     }
 
+    // ── closeAllDropdowns ─────────────────────────────────────
+    // Strips open classes from every picker in the page at once
     function closeAllDropdowns() {
         document.querySelectorAll('.picker-dropdown').forEach(d => d.classList.remove('picker-dropdown--open'));
         document.querySelectorAll('.picker-trigger-arrow').forEach(a => a.classList.remove('picker-trigger-arrow--open'));
         document.querySelectorAll('.picker-trigger').forEach(t => t.classList.remove('picker-trigger--open'));
     }
 
+    // Close on any outside click or Escape key
     document.addEventListener('click', closeAllDropdowns);
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllDropdowns(); });
 
-    /* ── Icon Picker ── */
+    // ── icon picker ───────────────────────────────────────────
+    // Clicking an emoji writes it to the hidden input and updates
+    // the trigger preview. Reset clears the input back to default.
     setupDropdown('iconTrigger', 'iconDropdown', 'iconArrow');
     (function () {
         const grid     = document.getElementById('iconPickerGrid');
@@ -282,8 +320,8 @@
         grid.addEventListener('click', function (e) {
             const btn = e.target.closest('.icon-opt');
             if (!btn) return;
-            const emoji    = btn.dataset.emoji;
-            input.value    = emoji;
+            const emoji         = btn.dataset.emoji;
+            input.value         = emoji;
             preview.textContent = emoji;
             label.textContent   = 'Change icon';
             grid.querySelectorAll('.icon-opt').forEach(b => b.classList.remove('icon-opt--active'));
@@ -293,7 +331,7 @@
         });
 
         clearBtn.addEventListener('click', function () {
-            input.value = '';
+            input.value         = '';
             preview.textContent = '✦';
             label.textContent   = 'Choose an icon';
             grid.querySelectorAll('.icon-opt').forEach(b => b.classList.remove('icon-opt--active'));
@@ -302,10 +340,12 @@
         });
     })();
 
-    /* ── Calendar Style Picker ── */
+    // ── calendar style picker ─────────────────────────────────
+    // Reads and writes the chosen style to localStorage so it
+    // persists across page loads without touching the database.
     setupDropdown('calTrigger', 'calDropdown', 'calArrow');
     (function () {
-        const STORAGE_KEY = 'cal_container_style';
+        const STORAGE_KEY  = 'cal_container_style';
         const STYLE_LABELS = {
             default:'Sakura 🌸', ocean:'Ocean 🌊', forest:'Forest 🌿',
             sunset:'Sunset 🌅', lavender:'Lavender 💜', midnight:'Midnight 🌙',
@@ -313,11 +353,12 @@
             aurora:'Aurora 🌌', cherry:'Cherry 🍒', cloud:'Cloud ☁️',
         };
 
-        const grid    = document.getElementById('calStyleGrid');
-        const label   = document.getElementById('calLabel');
-        const swatch  = document.getElementById('calPreviewSwatch');
+        const grid   = document.getElementById('calStyleGrid');
+        const label  = document.getElementById('calLabel');
+        const swatch = document.getElementById('calPreviewSwatch');
         if (!grid) return;
 
+        // Highlight the active button and update the trigger swatch
         function applyActive(style) {
             grid.querySelectorAll('.cal-style-btn').forEach(btn => {
                 const isActive = btn.dataset.style === style;
@@ -329,6 +370,7 @@
             if (label) label.textContent = STYLE_LABELS[style] || style;
         }
 
+        // Restore whatever the user last picked
         const current = localStorage.getItem(STORAGE_KEY) || 'default';
         applyActive(current);
 
