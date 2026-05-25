@@ -1,15 +1,3 @@
--- ============================================================
--- migrate.sql — Run this if you already have the database set up
--- (i.e. you already ran setup.sql before)
---
--- This adds the two new columns needed for:
---   - Profile photo upload (avatar column on users)
---   - Calendar task date fix (due_date column on tasks)
---
--- HOW TO RUN:
---   phpMyAdmin → SQL tab → paste this → click Go
---   OR Railway → Data tab → Query → paste → Run
--- ============================================================
 
 USE task_tracker;
 
@@ -23,19 +11,6 @@ ALTER TABLE tasks
 
 -- Backfill existing tasks so they show up on the calendar correctly
 UPDATE tasks SET due_date = DATE(created_at) WHERE due_date IS NULL;
-
--- ============================================================
--- migrate.sql — Run this if you already have the database set up
--- (i.e. you already ran setup.sql before)
---
--- This adds the two new columns needed for:
---   - Profile photo upload (avatar column on users)
---   - Calendar task date fix (due_date column on tasks)
---
--- HOW TO RUN:
---   phpMyAdmin → SQL tab → paste this → click Go
---   OR Railway → Data tab → Query → paste → Run
--- ============================================================
 
 USE task_tracker;
 
@@ -58,19 +33,6 @@ UPDATE tasks SET due_date    = DATE(created_at) WHERE due_date    IS NULL;
 UPDATE tasks SET start_date  = due_date          WHERE start_date IS NULL;
 UPDATE tasks SET end_date    = due_date          WHERE end_date   IS NULL;
 
--- ============================================================
--- migrate.sql — Run this if you already have the database set up
--- (i.e. you already ran setup.sql before)
---
--- This adds the two new columns needed for:
---   - Profile photo upload (avatar column on users)
---   - Calendar task date fix (due_date column on tasks)
---
--- HOW TO RUN:
---   phpMyAdmin → SQL tab → paste this → click Go
---   OR Railway → Data tab → Query → paste → Run
--- ============================================================
-
 USE task_tracker;
 
 -- Add avatar column to users (stores the uploaded photo filename)
@@ -83,19 +45,6 @@ ALTER TABLE tasks
 
 -- Backfill existing tasks so they show up on the calendar correctly
 UPDATE tasks SET due_date = DATE(created_at) WHERE due_date IS NULL;
-
--- ============================================================
--- migrate.sql — Run this if you already have the database set up
--- (i.e. you already ran setup.sql before)
---
--- This adds the two new columns needed for:
---   - Profile photo upload (avatar column on users)
---   - Calendar task date fix (due_date column on tasks)
---
--- HOW TO RUN:
---   phpMyAdmin → SQL tab → paste this → click Go
---   OR Railway → Data tab → Query → paste → Run
--- ============================================================
 
 USE task_tracker;
 
@@ -124,19 +73,6 @@ ALTER TABLE tasks
 ALTER TABLE tasks
     ADD COLUMN IF NOT EXISTS category VARCHAR(50) NULL AFTER priority;
 
-    -- ============================================================
--- migrate.sql — Run this if you already have the database set up
--- (i.e. you already ran setup.sql before)
---
--- This adds the two new columns needed for:
---   - Profile photo upload (avatar column on users)
---   - Calendar task date fix (due_date column on tasks)
---
--- HOW TO RUN:
---   phpMyAdmin → SQL tab → paste this → click Go
---   OR Railway → Data tab → Query → paste → Run
--- ============================================================
-
 USE task_tracker;
 
 -- Add avatar column to users (stores the uploaded photo filename)
@@ -149,19 +85,6 @@ ALTER TABLE tasks
 
 -- Backfill existing tasks so they show up on the calendar correctly
 UPDATE tasks SET due_date = DATE(created_at) WHERE due_date IS NULL;
-
--- ============================================================
--- migrate.sql — Run this if you already have the database set up
--- (i.e. you already ran setup.sql before)
---
--- This adds the two new columns needed for:
---   - Profile photo upload (avatar column on users)
---   - Calendar task date fix (due_date column on tasks)
---
--- HOW TO RUN:
---   phpMyAdmin → SQL tab → paste this → click Go
---   OR Railway → Data tab → Query → paste → Run
--- ============================================================
 
 USE task_tracker;
 
@@ -184,19 +107,6 @@ UPDATE tasks SET due_date    = DATE(created_at) WHERE due_date    IS NULL;
 UPDATE tasks SET start_date  = due_date          WHERE start_date IS NULL;
 UPDATE tasks SET end_date    = due_date          WHERE end_date   IS NULL;
 
--- ============================================================
--- migrate.sql — Run this if you already have the database set up
--- (i.e. you already ran setup.sql before)
---
--- This adds the two new columns needed for:
---   - Profile photo upload (avatar column on users)
---   - Calendar task date fix (due_date column on tasks)
---
--- HOW TO RUN:
---   phpMyAdmin → SQL tab → paste this → click Go
---   OR Railway → Data tab → Query → paste → Run
--- ============================================================
-
 USE task_tracker;
 
 -- Add avatar column to users (stores the uploaded photo filename)
@@ -209,19 +119,6 @@ ALTER TABLE tasks
 
 -- Backfill existing tasks so they show up on the calendar correctly
 UPDATE tasks SET due_date = DATE(created_at) WHERE due_date IS NULL;
-
--- ============================================================
--- migrate.sql — Run this if you already have the database set up
--- (i.e. you already ran setup.sql before)
---
--- This adds the two new columns needed for:
---   - Profile photo upload (avatar column on users)
---   - Calendar task date fix (due_date column on tasks)
---
--- HOW TO RUN:
---   phpMyAdmin → SQL tab → paste this → click Go
---   OR Railway → Data tab → Query → paste → Run
--- ============================================================
 
 USE task_tracker;
 
