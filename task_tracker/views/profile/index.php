@@ -146,7 +146,7 @@
 
     <!-- Danger zone -->
     <div class="danger-zone">
-        <div class="danger-zone-title">⚠️ Danger Zone</div>
+        <div class="danger-zone-title">⚠️ Do you want to delete your account?</div>
         <p class="danger-zone-desc">Deleting your account is permanent and cannot be undone. All your tasks will be removed.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
             <button class="btn btn-ghost" onclick="document.getElementById('logoutModal').classList.add('show')">
