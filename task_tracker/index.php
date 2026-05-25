@@ -2,6 +2,7 @@
 // index.php — The Router (Front Controller)
 
 session_start();
+date_default_timezone_set('Asia/Manila');
 define('ROOT', dirname(__FILE__));
 
 require ROOT . '/public/database.config.php';
